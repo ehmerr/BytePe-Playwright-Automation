@@ -1,0 +1,23 @@
+{
+  "name": "bytepe-playwright",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "playwright test --project=chromium --project=firefox",
+    "test:smoke": "playwright test --project=chromium --project=firefox --grep @smoke",
+    "test:regression": "playwright test --project=chromium --project=firefox --grep @regression",
+    "test:headed": "playwright test --project=chromium --headed",
+    "test:chromium": "playwright test --project=chromium",
+    "test:webkit": "playwright test --project=webkit",
+    "report": "playwright show-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "BytePe e-commerce Playwright automation framework",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^26.1.1",
+    "dotenv": "^17.4.2"
+  }
+}

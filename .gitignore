@@ -1,0 +1,16 @@
+node_modules/
+
+# Environment - carries the target deployment URL and any credentials
+.env
+.env.local
+.env.*.local
+
+# Saved authentication state: these files ARE live sessions, never commit them
+.auth/
+/playwright/.auth/
+
+# Playwright output
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
