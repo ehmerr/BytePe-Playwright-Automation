@@ -59,7 +59,10 @@ export class SubscriptionComponent {
 
   /** @returns {Promise<string>} the buyback figure for the current position */
   async getBuybackValue() {
-    const value = await labelledValue(this.page, SELECTORS.pdpValueLabels.assuredBuyback).textContent();
+    const value = await labelledValue(
+      this.page,
+      SELECTORS.pdpValueLabels.assuredBuyback,
+    ).textContent();
     return (value ?? '').trim();
   }
 
@@ -68,7 +71,11 @@ export class SubscriptionComponent {
    * @param {number} targetIndex 0-21
    */
   async setSliderIndex(targetIndex) {
-    if (!Number.isInteger(targetIndex) || targetIndex < SLIDER_MIN_INDEX || targetIndex > SLIDER_MAX_INDEX) {
+    if (
+      !Number.isInteger(targetIndex) ||
+      targetIndex < SLIDER_MIN_INDEX ||
+      targetIndex > SLIDER_MAX_INDEX
+    ) {
       throw new Error(
         `Slider index must be an integer between ${SLIDER_MIN_INDEX} and ${SLIDER_MAX_INDEX}. Received: ${targetIndex}`,
       );
@@ -91,6 +98,9 @@ export class SubscriptionComponent {
 
       await this.durationSlider.focus();
       await this.page.keyboard.press(current < targetIndex ? 'ArrowRight' : 'ArrowLeft');
+      // Not a conditional assertion: this is the poll that waits for the step to
+      // land. A lost press is expected and retried; the real assertion is below.
+      // eslint-disable-next-line playwright/no-conditional-expect
       await expect(this.durationSlider)
         .not.toHaveValue(String(current), { timeout: TIMEOUTS.SLIDER_STEP })
         .catch(() => {}); // press lost to a re-render - the next iteration repeats it
@@ -107,7 +117,11 @@ export class SubscriptionComponent {
    * @param {number} months between 3 and 24
    */
   async setDuration(months) {
-    if (!Number.isInteger(months) || months < MONTHS_AT_MIN_INDEX || months > indexToMonths(SLIDER_MAX_INDEX)) {
+    if (
+      !Number.isInteger(months) ||
+      months < MONTHS_AT_MIN_INDEX ||
+      months > indexToMonths(SLIDER_MAX_INDEX)
+    ) {
       throw new Error(
         `Duration must be an integer between ${MONTHS_AT_MIN_INDEX} and ${indexToMonths(SLIDER_MAX_INDEX)} months. Received: ${months}`,
       );

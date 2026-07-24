@@ -48,7 +48,9 @@ export class PDPPage extends BasePage {
     });
   }
 
-  async verifySubscriptionSelected() { await this.subscription.verifySelected(); }
+  async verifySubscriptionSelected() {
+    await this.subscription.verifySelected();
+  }
 
   async selectSubscription() {
     await this.subscription.selectSubscription();
@@ -215,6 +217,8 @@ export class PDPPage extends BasePage {
 
   /** True when the anonymous-session OTP prompt is on screen. */
   async isLoginRequired() {
-    return this.getLocator(SELECTORS.auth.mobileWall).isVisible().catch(() => false);
+    return this.getLocator(SELECTORS.auth.mobileWall)
+      .isVisible()
+      .catch(() => false);
   }
 }

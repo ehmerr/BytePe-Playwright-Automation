@@ -1,13 +1,19 @@
 # BytePe Playwright Automation Framework
 
+[![CI](https://github.com/ehmerr/BytePe-Playwright-Automation/actions/workflows/ci.yml/badge.svg)](https://github.com/ehmerr/BytePe-Playwright-Automation/actions/workflows/ci.yml)
+[![Playwright](https://img.shields.io/badge/tested%20with-Playwright-2EAD33?logo=playwright&logoColor=white)](https://playwright.dev)
+[![Node](https://img.shields.io/badge/node-%3E%3D18-5FA04E?logo=node.js&logoColor=white)](.nvmrc)
+[![License: ISC](https://img.shields.io/badge/license-ISC-blue.svg)](LICENSE)
+
 JavaScript Playwright framework for the e-commerce purchase journey against
 `stage-web.bytepe.com`: search, PDP configuration, review, and payments.
 
 ## Setup
 
 ```bash
-npm install
+npm ci
 npx playwright install
+cp .env.example .env   # set BASE_URL
 npm test
 ```
 
@@ -18,6 +24,22 @@ runs against the placeholder configuration by accident.
 - `npm run test:regression` - full journey suite
 - `npm run test:chromium` - chromium only, the fastest signal
 - `npm run test:webkit` - WebKit, which is opt-in (see Browser support)
+- `npm run lint` / `npm run format` - ESLint and Prettier
+
+## Continuous integration
+
+`ci.yml` runs lint, format check and a spec-import check on every push and pull
+request to `main`, then the smoke suite on Chromium and Firefox. `regression.yml`
+runs the full anonymous journey nightly and on demand.
+
+Both read the target host from the `BASE_URL` **repository variable** (Settings →
+Secrets and variables → Actions → Variables). It is a hostname, not a credential,
+so it is a variable rather than a secret. With it unset the suite skips itself and
+CI still reports green — check the run summary for skip counts before trusting a
+green badge.
+
+The `@authenticated` block does not run in CI: it needs a signed-in storage state
+captured through an OTP login, which expires and cannot be produced unattended.
 
 ## Structure
 
@@ -111,5 +133,15 @@ npm run test:webkit
   `fixtures/coupons.js` and `fixtures/users.js` now that the coupon and address
   journeys sit behind the OTP wall. They were left in place rather than deleted
   - `WaitHelper` in particular duplicates what web-first assertions already do
-  and would be the first thing to remove.
+    and would be the first thing to remove.
 - **`utils/ApiHelper.js`** is wired into the `api` fixture but no test uses it.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the conventions that hold this suite
+together — where locators are allowed to live, why assertions sit in page
+objects, and how to tell a real flake from staging contention.
+
+## License
+
+[ISC](LICENSE)

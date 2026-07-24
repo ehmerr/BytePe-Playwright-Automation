@@ -11,8 +11,16 @@ export class OrderSummaryComponent {
     this.interest = getLocator(page, SELECTORS.orderSummary.interest);
   }
 
-  async verifyVisible() { await expect(this.container).toBeVisible(); }
-  async verifyTotal(expected) { await expect(this.total).toContainText(expected); }
-  async verifySavings(expected) { await expect(this.savings).toContainText(expected); }
-  async verifyInterest(expected) { await expect(this.interest).toContainText(expected); }
+  async verifyVisible() {
+    await expect(this.container).toBeVisible();
+  }
+  async verifyTotal(expected) {
+    await expect(this.total).toContainText(expected);
+  }
+  async verifySavings(expected) {
+    await expect(this.savings).toContainText(expected);
+  }
+  async verifyInterest(expected) {
+    await expect(this.interest).toContainText(expected);
+  }
 }

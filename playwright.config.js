@@ -31,10 +31,7 @@ export default defineConfig({
   // pool is capped to keep failures meaningful.
   workers: process.env.CI ? 1 : 3,
 
-  reporter: [
-    ['list'],
-    ['html', { open: 'never' }]
-  ],
+  reporter: [['list'], ['html', { open: 'never' }]],
 
   use: {
     baseURL: process.env.BASE_URL || 'https://www.bytepe.com',

@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# A newer push to the same branch makes an in-flight run irrelevant. Cancelling
+# also keeps concurrent workers off the shared staging environment.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint and format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run lint
+
+      - run: npm run format:check
+
+      # Catches a spec that fails to import or a config error without paying for
+      # a browser download.
+      - run: npm run test:list
+
+  smoke:
+    name: Smoke (chromium, firefox)
+    runs-on: ubuntu-latest
+    needs: lint
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium firefox
+
+      # BASE_URL is a repository variable, not a secret - it is only a hostname.
+      # When it is unset the suite skips itself by design rather than running
+      # against the placeholder default, so this job stays green on forks.
+      - name: Run smoke suite
+        run: npm run test:smoke
+        env:
+          BASE_URL: ${{ vars.BASE_URL }}
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report-smoke
+          path: playwright-report/
+          retention-days: 14

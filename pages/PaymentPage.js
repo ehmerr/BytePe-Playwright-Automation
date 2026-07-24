@@ -19,7 +19,9 @@ export class PaymentPage extends BasePage {
     this.proceedButton = this.getLocator(SELECTORS.payment.proceed);
   }
 
-  async verifyOpened() { await expect(this.subscription).toBeVisible(); }
+  async verifyOpened() {
+    await expect(this.subscription).toBeVisible();
+  }
 
   async verifyDefaultCCEMI() {
     await expect(this.subscription).toBeVisible();
@@ -46,23 +48,19 @@ export class PaymentPage extends BasePage {
     await this.click(this.getLocator(SELECTORS.payment.paymentMethod, { hasText: method }));
   }
 
-  async enterCardDetails(card) { await this.emi.enterCardDetails(card); }
+  async enterCardDetails(card) {
+    await this.emi.enterCardDetails(card);
+  }
 
   async clickPayNow() {
-    await this.performAndWaitForURL(
-      ROUTES.PAYMENT_GATEWAY, () => this.emi.payNowButton.click(),
-    );
+    await this.performAndWaitForURL(ROUTES.PAYMENT_GATEWAY, () => this.emi.payNowButton.click());
   }
 
   async proceedWithCardlessEmi() {
-    await this.performAndWaitForURL(
-      ROUTES.LENDER, () => this.proceedButton.click(),
-    );
+    await this.performAndWaitForURL(ROUTES.LENDER, () => this.proceedButton.click());
   }
 
   async proceedToPay() {
-    await this.performAndWaitForURL(
-      ROUTES.PAYMENT_GATEWAY, () => this.proceedButton.click(),
-    );
+    await this.performAndWaitForURL(ROUTES.PAYMENT_GATEWAY, () => this.proceedButton.click());
   }
 }

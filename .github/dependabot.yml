@@ -1,0 +1,25 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      # Playwright's test runner and browser package are versioned together;
+      # splitting them across PRs produces a mismatched install.
+      playwright:
+        patterns:
+          - '@playwright/*'
+          - playwright
+      lint:
+        patterns:
+          - eslint*
+          - '@eslint/*'
+          - prettier*
+          - globals
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

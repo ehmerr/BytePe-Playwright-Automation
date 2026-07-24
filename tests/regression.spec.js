@@ -102,7 +102,9 @@ test.describe('Checkout journey @regression @authenticated', () => {
     await pdp.changePincode(PINCODES.NOIDA);
 
     const outcome = await pdp.clickSubscribe();
-    expect(outcome, 'Session was not authenticated - Subscribe raised the OTP wall.').toBe('review');
+    expect(outcome, 'Session was not authenticated - Subscribe raised the OTP wall.').toBe(
+      'review',
+    );
   }
 
   test('review page opens from the PDP', async ({ home, pdp, review }) => {
@@ -128,7 +130,12 @@ test.describe('Checkout journey @regression @authenticated', () => {
    * because the page sits behind the OTP wall. Expect to correct them the first
    * time this block runs with a real session.
    */
-  test('subscription credit card EMI redirects to gateway', async ({ home, pdp, review, payment }) => {
+  test('subscription credit card EMI redirects to gateway', async ({
+    home,
+    pdp,
+    review,
+    payment,
+  }) => {
     await openReview(home, pdp);
     await review.clickContinue();
     await payment.verifyDefaultCCEMI();
@@ -149,7 +156,12 @@ test.describe('Checkout journey @regression @authenticated', () => {
     await payment.selectUpfrontEMI();
   });
 
-  test('full payment supports UPI and redirects to gateway', async ({ home, pdp, review, payment }) => {
+  test('full payment supports UPI and redirects to gateway', async ({
+    home,
+    pdp,
+    review,
+    payment,
+  }) => {
     await openReview(home, pdp);
     await review.clickContinue();
     await payment.selectPayFullAmount('UPI');

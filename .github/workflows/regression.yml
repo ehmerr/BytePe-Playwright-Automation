@@ -1,0 +1,52 @@
+name: Regression
+
+# The full journey suite is heavier and shares one staging environment with
+# everyone else, so it runs nightly and on demand rather than per push.
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      project:
+        description: Browser project to run
+        type: choice
+        default: chromium
+        options: [chromium, firefox, webkit]
+
+concurrency:
+  group: regression
+  cancel-in-progress: false
+
+jobs:
+  regression:
+    name: Regression suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      # Only the anonymous journeys run here. The @authenticated block needs a
+      # signed-in storageState captured through an OTP login, which expires and
+      # cannot be produced unattended - see README "Authenticated coverage".
+      - name: Run regression suite
+        run: npx playwright test --project=${{ inputs.project || 'chromium' }} --grep @regression
+        env:
+          BASE_URL: ${{ vars.BASE_URL }}
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report-regression
+          path: playwright-report/
+          retention-days: 30
