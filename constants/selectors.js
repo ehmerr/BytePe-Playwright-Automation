@@ -107,10 +107,20 @@ export const SELECTORS = Object.freeze({
   payment: {
     subscription: { type: 'css', value: 'p', filterText: /^Subscription$/, first: true },
     upfront: { type: 'text', value: 'Buy Upfront', options: { exact: true }, first: true },
-    creditCardEmi: { type: 'text', value: 'Credit Card EMI', options: { exact: true }, first: true },
+    creditCardEmi: {
+      type: 'text',
+      value: 'Credit Card EMI',
+      options: { exact: true },
+      first: true,
+    },
     cardlessEmi: { type: 'text', value: 'Cardless EMI', options: { exact: true }, first: true },
     upfrontEmi: { type: 'text', value: 'Upfront EMI', options: { exact: true }, first: true },
-    payFullAmount: { type: 'text', value: 'Pay Full Amount', options: { exact: true }, first: true },
+    payFullAmount: {
+      type: 'text',
+      value: 'Pay Full Amount',
+      options: { exact: true },
+      first: true,
+    },
     cardNumber: { type: 'placeholder', value: /card number/i, first: true },
     cardExpiry: { type: 'placeholder', value: /MM\s*\/\s*YY/i, first: true },
     cardCvv: { type: 'placeholder', value: /cvv/i, first: true },

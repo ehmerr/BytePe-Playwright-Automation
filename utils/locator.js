@@ -21,7 +21,9 @@
  */
 export function getLocator(root, selector, extraOptions = {}) {
   if (!selector || !selector.type) {
-    throw new Error(`Invalid selector: must have a "type" property. Received: ${JSON.stringify(selector)}`);
+    throw new Error(
+      `Invalid selector: must have a "type" property. Received: ${JSON.stringify(selector)}`,
+    );
   }
 
   const { hasText, ...roleOptions } = extraOptions;
@@ -77,10 +79,7 @@ export function getLocator(root, selector, extraOptions = {}) {
  * @returns {import('@playwright/test').Locator}
  */
 export function labelledValue(page, label) {
-  return page
-    .getByText(label, { exact: true })
-    .first()
-    .locator('xpath=following::p[1]');
+  return page.getByText(label, { exact: true }).first().locator('xpath=following::p[1]');
 }
 
 /**

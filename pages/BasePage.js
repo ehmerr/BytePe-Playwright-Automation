@@ -3,7 +3,7 @@ import { getLocator as getLocatorUtil } from '../utils/locator.js';
 
 /**
  * Shared foundation for all page objects.
- * 
+ *
  * Concrete pages should expose business operations and keep selector details
  * private to the page object. This class centralizes reliable interactions so
  * tests do not need arbitrary waits or direct locator access.
@@ -108,10 +108,7 @@ export class BasePage {
    * @param {() => Promise<unknown>} action
    */
   async performAndWaitForURL(url, action) {
-    await Promise.all([
-      this.page.waitForURL(url),
-      action(),
-    ]);
+    await Promise.all([this.page.waitForURL(url), action()]);
   }
 
   /**
@@ -121,10 +118,7 @@ export class BasePage {
    * @returns {Promise<import('@playwright/test').Response>}
    */
   async performAndWaitForResponse(urlOrPredicate, action) {
-    const [response] = await Promise.all([
-      this.page.waitForResponse(urlOrPredicate),
-      action(),
-    ]);
+    const [response] = await Promise.all([this.page.waitForResponse(urlOrPredicate), action()]);
 
     return response;
   }

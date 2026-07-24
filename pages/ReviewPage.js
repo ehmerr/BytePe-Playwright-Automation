@@ -37,7 +37,9 @@ export class ReviewPage extends BasePage {
    */
   async verifyProductReadOnly() {
     await expect(this.productDetails).toBeVisible();
-    await expect(this.productDetails.locator('input:not([type="hidden"]), select, textarea')).toHaveCount(0);
+    await expect(
+      this.productDetails.locator('input:not([type="hidden"]), select, textarea'),
+    ).toHaveCount(0);
   }
 
   async changeAddress(addressLabel) {
@@ -45,9 +47,15 @@ export class ReviewPage extends BasePage {
     await this.addressDrawer.selectAddress(addressLabel);
   }
 
-  async applyCoupon(code) { await this.coupon.apply(code); }
-  async removeCoupon() { await this.coupon.remove(); }
-  async verifyOrderSummaryVisible() { await this.orderSummary.verifyVisible(); }
+  async applyCoupon(code) {
+    await this.coupon.apply(code);
+  }
+  async removeCoupon() {
+    await this.coupon.remove();
+  }
+  async verifyOrderSummaryVisible() {
+    await this.orderSummary.verifyVisible();
+  }
 
   async clickContinue() {
     await this.performAndWaitForURL(ROUTES.PAYMENTS, () => this.continueButton.click());

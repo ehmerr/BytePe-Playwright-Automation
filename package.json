@@ -2,6 +2,8 @@
   "name": "bytepe-playwright",
   "version": "1.0.0",
   "type": "module",
+  "private": true,
+  "description": "BytePe e-commerce Playwright automation framework",
   "scripts": {
     "test": "playwright test --project=chromium --project=firefox",
     "test:smoke": "playwright test --project=chromium --project=firefox --grep @smoke",
@@ -9,15 +11,43 @@
     "test:headed": "playwright test --project=chromium --headed",
     "test:chromium": "playwright test --project=chromium",
     "test:webkit": "playwright test --project=webkit",
-    "report": "playwright show-report"
+    "test:list": "playwright test --list",
+    "report": "playwright show-report",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "playwright",
+    "test-automation",
+    "e2e",
+    "page-object-model",
+    "ecommerce",
+    "bytepe"
+  ],
+  "author": "ehmerr <tech@bytepe.com>",
   "license": "ISC",
-  "description": "BytePe e-commerce Playwright automation framework",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ehmerr/BytePe-Playwright-Automation.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ehmerr/BytePe-Playwright-Automation/issues"
+  },
+  "homepage": "https://github.com/ehmerr/BytePe-Playwright-Automation#readme",
+  "engines": {
+    "node": ">=18"
+  },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.61.1",
     "@types/node": "^26.1.1",
-    "dotenv": "^17.4.2"
+    "dotenv": "^17.4.2",
+    "eslint": "^10.7.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-playwright": "^2.10.5",
+    "globals": "^17.7.0",
+    "prettier": "^3.9.6"
   }
 }
